@@ -1,12 +1,17 @@
-# NextPlay
+## NextPlay
 
-```
+<div align="center">
+<pre>
 ███╗   ██╗███████╗██╗  ██╗████████╗██████╗ ██╗      █████╗ ██╗   ██╗
 ████╗  ██║██╔════╝╚██╗██╔╝╚══██╔══╝██╔══██╗██║     ██╔══██╗╚██╗ ██╔╝
 ██╔██╗ ██║█████╗   ╚███╔╝    ██║   ██████╔╝██║     ███████║ ╚████╔╝ 
 ██║╚██╗██║██╔══╝   ██╔██╗    ██║   ██╔═══╝ ██║     ██╔══██║  ╚██╔╝  
 ██║ ╚████║███████╗██╔╝ ██╗   ██║   ██║     ███████╗██║  ██║   ██║   
-```
+</pre>
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+</div>
 
 ## Description
 A game recommendation web app that helps users discover their next favorite game. By combinning data from IGDB and user-driven insights from game-focused subreddits, the platform offers personalized and community-inspired recommendations. Future updates will include advanced features like trend analysis, sentiment-based categorization, and AI-powered summaries.
