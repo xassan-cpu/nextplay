@@ -61,6 +61,12 @@ A game recommendation web app that helps users discover their next favorite game
 ### Prerequisites
 - Install [Node.js](https://nodejs.org/) (LTS version recommended)
 - Install [npm](https://www.npmjs.com/) (comes with Node.js)
+- Install [Typescript](https://www.typescriptlang.org/download/) and [tsx](https://www.npmjs.com/package/tsx?activeTab=readme) (I have mine installed globally)
+
+    ```bash
+    npm i -D typescript tsx
+    ```
+
 
 
 ### Steps to Run Locally
