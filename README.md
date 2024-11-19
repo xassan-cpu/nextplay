@@ -144,8 +144,8 @@ A game recommendation web app that helps users discover their next favorite game
 ## Current Status
 - **Frontend**: Will update soon
 - **Backend**: Basic express server
-- **Database**: Will update soon
-- **Next Steps**: Integrate with IGDB and MongoDB, core endpoints for game data retrival
+- **Database**: Integrated with IGDB and MongoDB. Populated top 500 games to DB.
+- **Next Steps**: Core endpoints for game data retrival
 
 ---
 
