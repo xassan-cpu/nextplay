@@ -1,13 +1,19 @@
 const info = (...params: any) => {
     if (process.env.NODE_ENV !== 'test') {
-        console.log(...params);
+        console.log('[INFO]', ...params);
     }
-}
+};
 
 const error = (...params: any) => {
     if (process.env.NODE_ENV !== 'test') {
-        console.error(...params);
+        console.error('[ERROR]', ...params);
     }
-}
+};
 
-export {info, error}
+const warn = (...params: any[]) => {
+    if (process.env.NODE_ENV !== 'test') {
+        console.warn('[WARN]', ...params);
+    }
+};
+
+export { info, error, warn }
