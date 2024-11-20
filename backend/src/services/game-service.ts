@@ -23,3 +23,7 @@ export async function populateGamesToMongoDB(games: IGame[]) {
         throw err;
     }
 }
+
+export async function getAllGames() {
+    return await Game.find({});
+}
