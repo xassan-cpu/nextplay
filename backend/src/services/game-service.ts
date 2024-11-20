@@ -27,3 +27,7 @@ export async function populateGamesToMongoDB(games: IGame[]) {
 export async function getAllGames() {
     return await Game.find({});
 }
+
+export async function getGameById(gameId: number) {
+    return await Game.findOne({ id: gameId });
+}
