@@ -1,4 +1,4 @@
-import express from "express";
+import express, { query } from "express";
 import { connectToDB, closeDBConnection } from "./config/db.js";
 import cors from "cors";
 import { requestLogger, errorHandler, unknownEndpoint } from "./utils/middleware.js";
@@ -17,9 +17,31 @@ app.get('/', (req, res) => {
     res.json({
         message: 'Welcome to the Game API!',
         routes: [
-            { method: 'GET', path: '/api/games', description: 'Fetch all games' },
-
-            // other routes here
+            // routes here
+            { 
+                method: 'GET',
+                path: '/api/games',
+                description: 'Fetch all games',
+                queryParams: ['page', 'limit']     
+            },
+            { 
+                method: 'GET',
+                path: '/api/games/:id',
+                description: 'Get game of specified ID'
+            },
+            { 
+                method: 'GET',
+                path: '/api/games/genres/:ids',
+                description: 'Get games of specified genre IDs',
+                params: ['ids (comma-seperated list of genre IDs)'],
+                queryParams: ['page', 'limit']
+            },
+            {
+                method: 'GET',
+                path: 'api/games/popular',
+                description: 'Get most popular games',
+                queryParams: ['page', 'limit']
+            },
         ],
     });
 });

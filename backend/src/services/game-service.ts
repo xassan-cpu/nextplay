@@ -24,10 +24,110 @@ export async function populateGamesToMongoDB(games: IGame[]) {
     }
 }
 
-export async function getAllGames() {
-    return await Game.find({});
+export async function getAllGames(page: number, limit: number) {
+    const skip = (page - 1) * limit; // The number of documents to skip
+
+    try {
+        // Fetch paginated results
+        const gamesDocument = await Game.find({})
+        .skip(skip)
+        .limit(limit)
+        .lean();
+
+        // Fetch the total count for pagination metadata
+        const totalGames = await Game.countDocuments();
+
+        const games: IGame[] = [...gamesDocument];
+
+        return { games, totalGames };
+    } catch (err) {
+        throw new Error(
+            err instanceof Error ? err.message : "Failed to fetch games from DB."
+        );
+    }
 }
 
 export async function getGameById(gameId: number) {
-    return await Game.findOne({ id: gameId });
+    try {
+        const gameDocument = await Game.findOne({ id: gameId }).lean();
+
+        if (!gameDocument) {
+            throw new Error(`Game with ID ${gameId} not found.`);
+        }
+
+        const game: IGame = gameDocument;
+
+        return game;
+    } catch (err) {
+        throw new Error(
+            err instanceof Error ? err.message : "Failed to fetch game details."
+        );
+    }
+}
+
+export async function getGamesByGenreIds(genreIds: number[], page: number, limit: number) {
+    const skip = (page - 1) * limit;
+
+    try {
+        const gamesDocument =  await Game.find({ genres: { $in: genreIds } })
+            .skip(skip)
+            .limit(limit)
+            .lean();
+
+        if (!gamesDocument || gamesDocument.length === 0) {
+            throw new Error("No games found for the specified genres.");
+        }
+
+        const totalGames = await Game.countDocuments({ genres: { $in: genreIds } });
+
+        const games: IGame[] = gamesDocument;
+
+        return { games, totalGames };
+    } catch (err) {
+        throw new Error(
+            err instanceof Error ? err.message : "Failed to fetch games by genres."
+        );
+    }
+}
+
+export async function getMostPopularGames(page: number, limit: number) {
+    const skip = (page - 1) * limit;
+
+    // TODO: add these as query params.
+    const minRatingCount: number = 1000;
+    const topN: number = 5;
+
+    try {
+        // Filter out games with rating count lower than minimum threshold
+        const gamesDocument = await Game.find({ total_rating_count: { $gt: minRatingCount } })
+            .skip(skip)
+            .limit(limit)
+            .lean();
+
+        if (!gamesDocument || gamesDocument.length === 0) {
+            throw new Error(`No games found with a minimum rating count of ${minRatingCount}.`);
+        }
+
+        // Calculate the popularity score (rating count * rating)
+        const scoredGames = gamesDocument.map(game => ({
+            ...game,
+            popularityScore: game.total_rating_count * game.total_rating,
+        }));
+
+        // Sort the games by popularity in desc order
+        scoredGames.sort((a, b) => b.popularityScore - a.popularityScore);
+
+        // Get top N games
+        const topGames = scoredGames.slice(0, topN);
+
+        const totalGames = await Game.countDocuments({ total_rating_count: { $gt: minRatingCount } });
+
+        const games: IGame[] = [...topGames];
+
+        return { games, totalGames }
+    } catch (err) {
+        throw new Error(
+            err instanceof Error ? err.message : "Failed to fetch popular games."
+        );
+    }
 }
