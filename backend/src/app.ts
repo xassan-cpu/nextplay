@@ -2,7 +2,7 @@ import express, { query } from "express";
 import { connectToDB, closeDBConnection } from "./config/db.js";
 import cors from "cors";
 import { requestLogger, errorHandler, unknownEndpoint } from "./utils/middleware.js";
-import gameRouter from "./routes/game-router.js"
+import gameRouter from "./routes/games.js"
 
 const app = express()
 
